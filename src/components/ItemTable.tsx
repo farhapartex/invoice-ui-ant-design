@@ -1,7 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import type { InputRef } from 'antd';
+import React, { useState } from 'react';
 import { InputNumber, Button, Form, Input, Popconfirm, Table, Typography } from 'antd';
-import type { FormInstance } from 'antd/lib/form';
 
 interface Item {
     key: string;
@@ -72,7 +70,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
 
 const Itemtable: React.FC = () => {
     const [form] = Form.useForm();
-    const [data, setData] = useState(originData);
+    const [data, setData] = useState<Item[]>(originData);
     const [editingKey, setEditingKey] = useState('');
     const isEditing = (record: Item) => record.key === editingKey;
 
@@ -84,6 +82,19 @@ const Itemtable: React.FC = () => {
     const cancel = () => {
         setEditingKey('');
     };
+
+    const addRowHandler = () => {
+        const currentDataLn: number = data.length;
+        const newData: Item = {
+            key: currentDataLn.toString(),
+            description: `Edrward ${currentDataLn}`,
+            rate: 32,
+            qty: 3,
+            amount: 96,
+        };
+
+        setData([...data, newData]);
+    }
 
     const save = async (key: React.Key) => {
         try {
@@ -176,7 +187,7 @@ const Itemtable: React.FC = () => {
 
     return (
         <div>
-            <Button type="primary" style={{ marginBottom: 16 }}>
+            <Button type="primary" style={{ marginBottom: 16 }} onClick={addRowHandler}>
                 Add a row
             </Button>
             <Form form={form} component={false}>
@@ -190,9 +201,7 @@ const Itemtable: React.FC = () => {
                     dataSource={data}
                     columns={mergedColumns}
                     rowClassName="editable-row"
-                    pagination={{
-                        onChange: cancel,
-                    }}
+                    pagination={false}
                 />
             </Form>
         </div>
