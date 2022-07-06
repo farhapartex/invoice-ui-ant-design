@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Col, Row, Button } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
-import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import HeaderMenu from "../components/HeaderMenu";
 import InvoiceLayout from "../components/InvoiceLayout";
 import InvoicePreview from "../components/InvoicePreview";
@@ -81,7 +80,7 @@ const RootPage: React.FC = () => {
     const renderLayout = () => {
         return (
             <Col xl={12} lg={12} md={24} sm={24} xs={24} className="gutter-row">
-                <InvoiceLayout invoiceData={invoiceData} />
+                <InvoiceLayout invoiceData={invoiceData} items={invoiceTableData} setItems={setInvoiceTabledata} />
             </Col>
         )
     }

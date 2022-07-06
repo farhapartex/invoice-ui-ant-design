@@ -86,6 +86,7 @@ const Itemtable: React.FC<ItemTableProps> = (props) => {
     };
 
     const handleCancel = () => {
+        setDefaultItem();
         setIsModalVisible(false);
     };
 
@@ -98,9 +99,17 @@ const Itemtable: React.FC<ItemTableProps> = (props) => {
         setEditingKey('');
     };
 
+    const setDefaultItem = () => {
+        setDescription("");
+        setRate(0);
+        setQty(0);
+    }
+
     const addRowHandler = () => {
-        console.log("Working man!");
-        setIsModalVisible(false);
+        if (!description || !rate || !qty) {
+            message.error("Please fill all the fields");
+            return;
+        }
 
         const newItem: InvoiceTableData = {
             key: (items.length + 1).toString(),
@@ -109,11 +118,10 @@ const Itemtable: React.FC<ItemTableProps> = (props) => {
             qty: qty,
             amount: rate * qty,
         }
-        setDescription("");
-        setRate(0);
-        setQty(0);
+        setDefaultItem();
         setItems([...items, newItem]);
         message.success("Item added successfully!");
+        setIsModalVisible(false);
     }
 
     const save = async (key: React.Key) => {
@@ -221,10 +229,14 @@ const Itemtable: React.FC<ItemTableProps> = (props) => {
         },
     };
 
+    const tailLayout = {
+        wrapperCol: { offset: 6, span: 12 },
+    };
+
 
     return (
         <div>
-            <Button type="primary" style={{ marginBottom: 16 }} onClick={() => setIsModalVisible(true)}>
+            <Button type="primary" style={{ marginBottom: 16 }} onClick={() => { setDefaultItem(); setIsModalVisible(true) }}>
                 Add a row
             </Button>
             <Form form={form} component={false} >
@@ -241,8 +253,8 @@ const Itemtable: React.FC<ItemTableProps> = (props) => {
                     pagination={false}
                 />
             </Form>
-            <InvoiceModal title="Invoice Item" isModalVisible={isModalVisible} handleCancel={handleCancel} submitHanlder={addRowHandler}>
-                <Form {...formItemLayout} layout="horizontal">
+            <InvoiceModal title="Invoice Item" isModalVisible={isModalVisible} handleCancel={handleCancel} submitHanlder={() => { }}>
+                <Form {...formItemLayout} name="itemAdd" onFinish={addRowHandler}>
                     <Form.Item
                         name={'description'}
                         label="Description"
@@ -263,6 +275,14 @@ const Itemtable: React.FC<ItemTableProps> = (props) => {
                         rules={[{ required: true, message: 'Please input quantity!' }]}
                     >
                         <Input placeholder="Ex: 320" onChange={(e) => setQty(parseInt(e.target.value))} value={qty} />
+                    </Form.Item>
+                    <Form.Item {...tailLayout} style={{ marginTop: '10px' }}>
+                        <Button htmlType="submit" type="primary" onClick={addRowHandler}>
+                            Submit
+                        </Button>
+                        <Button htmlType="button" style={{ margin: '0 8px' }} onClick={handleCancel}>
+                            Close
+                        </Button>
                     </Form.Item>
                 </Form>
             </InvoiceModal>

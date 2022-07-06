@@ -12,7 +12,7 @@ interface InvoiceModalProps {
 const InvoiceModal: React.FC<InvoiceModalProps> = (props) => {
     const { title, isModalVisible, handleCancel, children, submitHanlder } = props;
     return (
-        <Modal title={title} visible={isModalVisible} onOk={submitHanlder} onCancel={handleCancel}>
+        <Modal title={title} visible={isModalVisible} onOk={submitHanlder} onCancel={handleCancel} footer={[]}>
             {children}
         </Modal>
     )

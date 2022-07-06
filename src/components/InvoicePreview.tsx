@@ -45,30 +45,6 @@ const columns: ColumnsType<DataType> = [
     },
 ];
 
-const data: DataType[] = [
-    {
-        key: '1',
-        description: "Consultation service- April'2022",
-        rate: 20,
-        qty: 128,
-        amount: 2560
-    },
-    {
-        key: '2',
-        description: "Housing cost- April'2022",
-        rate: 20,
-        qty: 128,
-        amount: 2560
-    },
-    {
-        key: '3',
-        description: "Housing cost- April'2022",
-        rate: 20,
-        qty: 128,
-        amount: 2560
-    }
-];
-
 const subTotalcolumns: ColumnsType<SubTotalDataType> = [
     {
         title: 'Description',
@@ -142,7 +118,7 @@ const InvoicePreview: React.FC<InvoicePreviewProps> = (props) => {
                 </Col>
             </Row>
 
-            <DataTable columns={columns} data={data} pagination={false} />
+            <DataTable columns={columns} data={invoiceData.invoiceTableData} pagination={false} />
             <Row gutter={32}>
                 <Col span={8} className="gutter-row">
                 </Col>
