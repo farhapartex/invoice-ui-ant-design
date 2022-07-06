@@ -5,6 +5,8 @@ import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import HeaderMenu from "../components/HeaderMenu";
 import InvoiceLayout from "../components/InvoiceLayout";
 import InvoicePreview from "../components/InvoicePreview";
+import { supabase } from "../supabaseClient";
+import { Invoice } from "../components/interface";
 
 const { Content, Footer } = Layout;
 
@@ -51,9 +53,19 @@ const RootPage: React.FC = () => {
         setShowPreview(Boolean(window.innerWidth >= 1024));
     };
 
+    const fetchInvoiceData = async () => {
+        const response = await supabase
+            .from<Invoice>('invoices') // Message maps to the type of the row in your database.
+            .select("*");
+        console.log(response);
+    }
+
+    fetchInvoiceData();
+
     useEffect(() => {
         window.addEventListener("resize", updateMedia);
         return () => window.removeEventListener("resize", updateMedia);
+
     });
 
     const invoiceData: InvoiceData = { fromName, setFromName, fromEmail, setFromEmail, fromAddress, setFromAddress, fromPhone, setFromPhone, businessNumber, setBusinessNumber, invoiceNumber, setInvoiceNumber, toFullName, setToFullName, toEmail, setToEmail, toAddress, setToAddress, toPhone, setToPhone };
