@@ -43,6 +43,8 @@ export interface InvoiceData {
     setToPhone: React.Dispatch<React.SetStateAction<string>>,
     invoiceTableData: InvoiceTableData[],
     setInvoiceTabledata: React.Dispatch<React.SetStateAction<InvoiceTableData[]>>,
+    taxPercent: number,
+    setTaxPercent: React.Dispatch<React.SetStateAction<number>>,
 }
 
 export interface InvoiceCalculationData {

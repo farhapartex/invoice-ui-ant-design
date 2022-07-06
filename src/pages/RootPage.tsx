@@ -71,7 +71,7 @@ const RootPage: React.FC = () => {
 
     });
 
-    const invoiceData: InvoiceData = { fromName, setFromName, fromEmail, setFromEmail, fromAddress, setFromAddress, fromPhone, setFromPhone, businessNumber, setBusinessNumber, invoiceNumber, setInvoiceNumber, toFullName, setToFullName, toEmail, setToEmail, toAddress, setToAddress, toPhone, setToPhone, invoiceTableData, setInvoiceTabledata };
+    const invoiceData: InvoiceData = { fromName, setFromName, fromEmail, setFromEmail, fromAddress, setFromAddress, fromPhone, setFromPhone, businessNumber, setBusinessNumber, invoiceNumber, setInvoiceNumber, toFullName, setToFullName, toEmail, setToEmail, toAddress, setToAddress, toPhone, setToPhone, invoiceTableData, setInvoiceTabledata, taxPercent, setTaxPercent };
 
     const handleShowPreview = (flag: boolean) => {
         setShowPreview(flag);

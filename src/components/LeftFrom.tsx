@@ -1,7 +1,13 @@
 import React from "react";
 import { Typography, Form, Input, DatePicker } from 'antd';
+import { InvoiceData } from "./interface";
 
-const LeftFrom: React.FC<any> = (props) => {
+
+interface LeftFormProps {
+    invoiceData: InvoiceData
+}
+
+const LeftFrom: React.FC<LeftFormProps> = (props) => {
     const { invoiceData } = props;
 
     return (

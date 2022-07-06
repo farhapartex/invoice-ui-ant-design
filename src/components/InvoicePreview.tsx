@@ -101,7 +101,7 @@ const InvoicePreview: React.FC<InvoicePreviewProps> = (props) => {
                     <Space direction="vertical" style={{ width: '100%' }}>
                         <Typography.Title level={4}>{invoiceData.fromName}</Typography.Title>
                         <Typography.Text>{invoiceData.fromAddress}</Typography.Text>
-                        <Typography.Text>{invoiceData.fromPhone}</Typography.Text>
+                        <Typography.Text>{invoiceData.fromPhone}{invoiceData.businessNumber && `, ${invoiceData.businessNumber}`}</Typography.Text>
                         <Typography.Text>{invoiceData.fromEmail}</Typography.Text>
                     </Space>
                 </Col>
