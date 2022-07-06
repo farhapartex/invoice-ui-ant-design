@@ -105,9 +105,12 @@ const RootPage: React.FC = () => {
             <Content style={{ padding: '0 50px' }}>
 
                 <Content style={{ marginTop: '20px' }}>
+                    <Button type="primary" onClick={() => handleDownload()} icon={<DownloadOutlined />} size={"middle"}>
+                        Download
+                    </Button>
                     {!isDesktop &&
                         <>
-                            <Button type="primary" onClick={() => handleShowPreview(true)}>
+                            <Button style={{ marginLeft: '10px' }} type="primary" onClick={() => handleShowPreview(true)}>
                                 Preview
                             </Button>
                             <Button type="primary" style={{ marginLeft: '10px' }} onClick={() => handleShowPreview(false)}>
@@ -115,9 +118,7 @@ const RootPage: React.FC = () => {
                             </Button>
                         </>
                     }
-                    <Button type="primary" style={{ marginLeft: '10px' }} onClick={() => handleDownload()} icon={<DownloadOutlined />} size={"middle"}>
-                        Download
-                    </Button>
+
                 </Content>
                 <Row gutter={32} style={{ marginTop: '20px' }}>
                     {renderLeftForm()}
