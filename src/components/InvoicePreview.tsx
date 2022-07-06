@@ -2,6 +2,7 @@ import React from "react";
 import { Col, Row, Typography, Space, Divider } from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
 import DataTable from "./DataTable";
+import { InvoiceData } from "./interface";
 
 interface DataType {
     key: string;
@@ -100,7 +101,11 @@ const subTotalData: SubTotalDataType[] = [
     }
 ];
 
-const InvoicePreview: React.FC<any> = (props) => {
+interface InvoicePreviewProps {
+    invoiceData: InvoiceData
+}
+
+const InvoicePreview: React.FC<InvoicePreviewProps> = (props) => {
     const { invoiceData } = props;
 
     return (

@@ -5,33 +5,10 @@ import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import HeaderMenu from "../components/HeaderMenu";
 import InvoiceLayout from "../components/InvoiceLayout";
 import InvoicePreview from "../components/InvoicePreview";
-import { supabase } from "../supabaseClient";
-import { Invoice } from "../components/interface";
+// import { supabase } from "../supabaseClient";
+import { Invoice, InvoiceData, InvoiceTableData } from "../components/interface";
 
 const { Content, Footer } = Layout;
-
-export interface InvoiceData {
-    fromName: string,
-    setFromName: React.Dispatch<React.SetStateAction<string>>,
-    fromEmail: string,
-    setFromEmail: React.Dispatch<React.SetStateAction<string>>,
-    fromAddress: string,
-    setFromAddress: React.Dispatch<React.SetStateAction<string>>,
-    fromPhone: string,
-    setFromPhone: React.Dispatch<React.SetStateAction<string>>,
-    businessNumber: string,
-    setBusinessNumber: React.Dispatch<React.SetStateAction<string>>,
-    invoiceNumber: string,
-    setInvoiceNumber: React.Dispatch<React.SetStateAction<string>>,
-    toFullName: string,
-    setToFullName: React.Dispatch<React.SetStateAction<string>>,
-    toEmail: string,
-    setToEmail: React.Dispatch<React.SetStateAction<string>>,
-    toAddress: string,
-    setToAddress: React.Dispatch<React.SetStateAction<string>>,
-    toPhone: string,
-    setToPhone: React.Dispatch<React.SetStateAction<string>>,
-}
 
 const RootPage: React.FC = () => {
     const menuList: string[] = ['Home', 'Invoices', 'Contact'];
@@ -47,6 +24,7 @@ const RootPage: React.FC = () => {
     const [invoiceNumber, setInvoiceNumber] = React.useState("INV001");
     const [isDesktop, setDesktop] = useState(window.innerWidth >= 1024);
     const [showPreview, setShowPreview] = useState(window.innerWidth >= 1024);
+    const [invoiceTableData, setInvoiceTabledata] = useState<InvoiceTableData[]>([]);
 
     const updateMedia = () => {
         setDesktop(window.innerWidth >= 1024);
@@ -67,21 +45,21 @@ const RootPage: React.FC = () => {
         tophone: '+89766513',
     }
 
-    const fetchInvoiceData = async () => {
-        const response = await supabase
-            .from<Invoice>('invoices') // Message maps to the type of the row in your database.
-            .select("*");
-        console.log(response);
-    }
+    // const fetchInvoiceData = async () => {
+    //     const response = await supabase
+    //         .from<Invoice>('invoices') // Message maps to the type of the row in your database.
+    //         .select("*");
+    //     console.log(response);
+    // }
 
-    const createInvoiceData = async (data: Invoice) => {
-        const response = await supabase
-            .from<Invoice>('invoices') // Message maps to the type of the row in your database.
-            .insert([data]);
-        console.log(response);
-    }
+    // const createInvoiceData = async (data: Invoice) => {
+    //     const response = await supabase
+    //         .from<Invoice>('invoices') // Message maps to the type of the row in your database.
+    //         .insert([data]);
+    //     console.log(response);
+    // }
 
-    fetchInvoiceData();
+    //fetchInvoiceData();
     //createInvoiceData(data);
 
     useEffect(() => {
@@ -90,7 +68,7 @@ const RootPage: React.FC = () => {
 
     });
 
-    const invoiceData: InvoiceData = { fromName, setFromName, fromEmail, setFromEmail, fromAddress, setFromAddress, fromPhone, setFromPhone, businessNumber, setBusinessNumber, invoiceNumber, setInvoiceNumber, toFullName, setToFullName, toEmail, setToEmail, toAddress, setToAddress, toPhone, setToPhone };
+    const invoiceData: InvoiceData = { fromName, setFromName, fromEmail, setFromEmail, fromAddress, setFromAddress, fromPhone, setFromPhone, businessNumber, setBusinessNumber, invoiceNumber, setInvoiceNumber, toFullName, setToFullName, toEmail, setToEmail, toAddress, setToAddress, toPhone, setToPhone, invoiceTableData, setInvoiceTabledata };
 
     const handleShowPreview = (flag: boolean) => {
         setShowPreview(flag);
