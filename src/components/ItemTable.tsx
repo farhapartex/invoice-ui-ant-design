@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { InputNumber, Button, Form, Input, Popconfirm, Table, Typography } from 'antd';
+import { InputNumber, Button, Form, Input, Popconfirm, Table, Typography, Col, Row } from 'antd';
+import InvoiceModal from './InvModal';
 
 interface Item {
     key: string;
@@ -72,7 +73,17 @@ const Itemtable: React.FC = () => {
     const [form] = Form.useForm();
     const [data, setData] = useState<Item[]>(originData);
     const [editingKey, setEditingKey] = useState('');
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
     const isEditing = (record: Item) => record.key === editingKey;
+
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
 
     const edit = (record: Partial<Item> & { key: React.Key }) => {
         form.setFieldsValue({ name: '', age: '', address: '', ...record });
@@ -84,16 +95,17 @@ const Itemtable: React.FC = () => {
     };
 
     const addRowHandler = () => {
-        const currentDataLn: number = data.length;
-        const newData: Item = {
-            key: currentDataLn.toString(),
-            description: `Edrward ${currentDataLn}`,
-            rate: 32,
-            qty: 3,
-            amount: 96,
-        };
+        setIsModalVisible(true);
+        // const currentDataLn: number = data.length;
+        // const newData: Item = {
+        //     key: currentDataLn.toString(),
+        //     description: `Edrward ${currentDataLn}`,
+        //     rate: 32,
+        //     qty: 3,
+        //     amount: 96,
+        // };
 
-        setData([...data, newData]);
+        // setData([...data, newData]);
     }
 
     const save = async (key: React.Key) => {
@@ -184,13 +196,30 @@ const Itemtable: React.FC = () => {
         };
     });
 
+    const formItemLayout = {
+        labelCol: {
+            xs: { span: 24 },
+            sm: { span: 16 },
+            md: { span: 8 },
+            xl: { span: 6 },
+            lg: { span: 8 },
+        },
+        wrapperCol: {
+            xs: { span: 24 },
+            sm: { span: 16 },
+            md: { span: 16 },
+            xl: { span: 16 },
+            lg: { span: 16 },
+        },
+    };
+
 
     return (
         <div>
             <Button type="primary" style={{ marginBottom: 16 }} onClick={addRowHandler}>
                 Add a row
             </Button>
-            <Form form={form} component={false}>
+            <Form form={form} component={false} >
                 <Table
                     components={{
                         body: {
@@ -204,7 +233,32 @@ const Itemtable: React.FC = () => {
                     pagination={false}
                 />
             </Form>
-        </div>
+            <InvoiceModal title="Invoice Item" isModalVisible={isModalVisible} handleCancel={handleCancel}>
+                <Form {...formItemLayout} layout="horizontal">
+                    <Form.Item
+                        name={'description'}
+                        label="Description"
+                        rules={[{ required: true, message: 'Please input description!' }]}
+                    >
+                        <Input.TextArea placeholder="Ex: Lorem Ipsum " />
+                    </Form.Item>
+                    <Form.Item
+                        name={'rate'}
+                        label="Rate"
+                        rules={[{ required: true, message: 'Please input rate!' }]}
+                    >
+                        <Input placeholder="Ex: 20" />
+                    </Form.Item>
+                    <Form.Item
+                        name={'qty'}
+                        label="Quantity"
+                        rules={[{ required: true, message: 'Please input quantity!' }]}
+                    >
+                        <Input placeholder="Ex: 320" />
+                    </Form.Item>
+                </Form>
+            </InvoiceModal>
+        </div >
     )
 }
 
