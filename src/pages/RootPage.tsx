@@ -28,6 +28,7 @@ const RootPage: React.FC = () => {
     const [taxPercent, setTaxPercent] = useState<number>(5);
     const [taxAmount, setTaxAmount] = useState<number>(0);
     const [total, setTotal] = useState<number>(0);
+    const [date, setDate] = useState<Date>(new Date());
 
     const updateMedia = () => {
         setDesktop(window.innerWidth >= 1024);
@@ -71,7 +72,7 @@ const RootPage: React.FC = () => {
 
     });
 
-    const invoiceData: InvoiceData = { fromName, setFromName, fromEmail, setFromEmail, fromAddress, setFromAddress, fromPhone, setFromPhone, businessNumber, setBusinessNumber, invoiceNumber, setInvoiceNumber, toFullName, setToFullName, toEmail, setToEmail, toAddress, setToAddress, toPhone, setToPhone, invoiceTableData, setInvoiceTabledata, taxPercent, setTaxPercent };
+    const invoiceData: InvoiceData = { fromName, setFromName, fromEmail, setFromEmail, fromAddress, setFromAddress, fromPhone, setFromPhone, businessNumber, setBusinessNumber, invoiceNumber, setInvoiceNumber, toFullName, setToFullName, toEmail, setToEmail, toAddress, setToAddress, toPhone, setToPhone, invoiceTableData, setInvoiceTabledata, taxPercent, setTaxPercent, date, setDate };
 
     const handleShowPreview = (flag: boolean) => {
         setShowPreview(flag);

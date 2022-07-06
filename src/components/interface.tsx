@@ -45,6 +45,8 @@ export interface InvoiceData {
     setInvoiceTabledata: React.Dispatch<React.SetStateAction<InvoiceTableData[]>>,
     taxPercent: number,
     setTaxPercent: React.Dispatch<React.SetStateAction<number>>,
+    date: Date,
+    setDate: React.Dispatch<React.SetStateAction<Date>>,
 }
 
 export interface InvoiceCalculationData {

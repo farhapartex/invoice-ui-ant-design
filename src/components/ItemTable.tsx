@@ -86,6 +86,11 @@ const Itemtable: React.FC<ItemTableProps> = (props) => {
         calculationData.setTotal(calculationData?.taxAmount + calculationData.subTotal);
     }, [calculationData.subTotal, calculationData.taxAmount])
 
+    useEffect(() => {
+        setDefaultItem();
+        form.setFieldsValue({ description: '', rate: '', qty: '' });
+    }, [items])
+
 
     const isEditing = (record: InvoiceTableData) => record.key === editingKey;
 
@@ -128,9 +133,8 @@ const Itemtable: React.FC<ItemTableProps> = (props) => {
         }
         calculationData.setSubTotal(calculationData.subTotal + (newItem.amount || 0));
 
-
-        setDefaultItem();
         setItems([...items, newItem]);
+
         message.success("Item added successfully!");
         setIsModalVisible(false);
     }
@@ -265,7 +269,7 @@ const Itemtable: React.FC<ItemTableProps> = (props) => {
                 />
             </Form>
             <InvoiceModal title="Invoice Item" isModalVisible={isModalVisible} handleCancel={handleCancel} submitHanlder={() => { }}>
-                <Form {...formItemLayout} name="itemAdd" >
+                <Form {...formItemLayout} form={form} name="itemAdd" >
                     <Form.Item
                         name={'description'}
                         label="Description"

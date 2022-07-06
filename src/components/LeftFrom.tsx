@@ -1,6 +1,7 @@
 import React from "react";
 import { Typography, Form, Input, DatePicker } from 'antd';
 import { InvoiceData } from "./interface";
+import moment from "moment";
 
 
 interface LeftFormProps {
@@ -9,6 +10,7 @@ interface LeftFormProps {
 
 const LeftFrom: React.FC<LeftFormProps> = (props) => {
     const { invoiceData } = props;
+    const dateFormat = 'DD/MM/YYYY';
 
     return (
         <div>
@@ -33,7 +35,7 @@ const LeftFrom: React.FC<LeftFormProps> = (props) => {
                     <Input placeholder="Ex: INV001" value={invoiceData.invoiceNumber} onChange={(e) => { invoiceData.setInvoiceNumber(e.target.value) }} />
                 </Form.Item>
                 <Form.Item label="Date">
-                    <DatePicker />
+                    <DatePicker value={moment(invoiceData.date)} format={dateFormat} onChange={(date, dString) => { invoiceData.setDate(new Date(dString)) }} />
                 </Form.Item>
             </Form>
         </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Col, Row, Typography, Space, Divider } from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
+import moment from "moment";
 import DataTable from "./DataTable";
 import { InvoiceCalculationData, InvoiceData } from "./interface";
 
@@ -109,7 +110,7 @@ const InvoicePreview: React.FC<InvoicePreviewProps> = (props) => {
                     <Space direction="vertical" style={{ textAlign: 'right', width: '100%' }}>
                         <Typography.Title level={4}>INVOICE</Typography.Title>
                         <Typography.Text>Number: {invoiceData.invoiceNumber}</Typography.Text>
-                        <Typography.Text>Date: Jul 7, 2022</Typography.Text>
+                        <Typography.Text>{`Date: ${moment(invoiceData.date).format('MMMM Do YYYY')}`}</Typography.Text>
                         <Typography.Text>Due: On Receipt</Typography.Text>
                         <Typography.Text>Balance Due: ${calculationData?.total}</Typography.Text>
                     </Space>
