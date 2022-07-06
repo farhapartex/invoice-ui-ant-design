@@ -1,16 +1,10 @@
 import React, { useState } from 'react';
-import { InputNumber, Button, Form, Input, Popconfirm, Table, Typography, Col, Row } from 'antd';
+import { InputNumber, Button, Form, Input, Popconfirm, Table, Typography, message } from 'antd';
 import InvoiceModal from './InvModal';
+import { InvoiceTableData } from './interface';
 
-interface Item {
-    key: string;
-    description: string;
-    rate: number;
-    qty: number;
-    amount: number
-}
 
-const originData: Item[] = [];
+const originData: InvoiceTableData[] = [];
 for (let i = 0; i < 1; i++) {
     originData.push({
         key: i.toString(),
@@ -27,7 +21,7 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
     dataIndex: string;
     title: any;
     inputType: 'number' | 'text';
-    record: Item;
+    record: InvoiceTableData;
     index: number;
     children: React.ReactNode;
 }
@@ -68,14 +62,24 @@ const EditableCell: React.FC<EditableCellProps> = ({
 };
 
 
+interface ItemTableProps {
+    items: InvoiceTableData[],
+    setItems: React.Dispatch<React.SetStateAction<InvoiceTableData[]>>
+}
 
-const Itemtable: React.FC = () => {
+
+const Itemtable: React.FC<ItemTableProps> = (props) => {
+    const { items, setItems } = props;
+
     const [form] = Form.useForm();
-    const [data, setData] = useState<Item[]>(originData);
     const [editingKey, setEditingKey] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [description, setDescription] = useState<string>("");
+    const [rate, setRate] = useState<number>(0);
+    const [qty, setQty] = useState<number>(0);
 
-    const isEditing = (record: Item) => record.key === editingKey;
+
+    const isEditing = (record: InvoiceTableData) => record.key === editingKey;
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -85,7 +89,7 @@ const Itemtable: React.FC = () => {
         setIsModalVisible(false);
     };
 
-    const edit = (record: Partial<Item> & { key: React.Key }) => {
+    const edit = (record: Partial<InvoiceTableData> & { key: React.Key }) => {
         form.setFieldsValue({ name: '', age: '', address: '', ...record });
         setEditingKey(record.key);
     };
@@ -95,24 +99,28 @@ const Itemtable: React.FC = () => {
     };
 
     const addRowHandler = () => {
-        setIsModalVisible(true);
-        // const currentDataLn: number = data.length;
-        // const newData: Item = {
-        //     key: currentDataLn.toString(),
-        //     description: `Edrward ${currentDataLn}`,
-        //     rate: 32,
-        //     qty: 3,
-        //     amount: 96,
-        // };
+        console.log("Working man!");
+        setIsModalVisible(false);
 
-        // setData([...data, newData]);
+        const newItem: InvoiceTableData = {
+            key: (items.length + 1).toString(),
+            description: description,
+            rate: rate,
+            qty: qty,
+            amount: rate * qty,
+        }
+        setDescription("");
+        setRate(0);
+        setQty(0);
+        setItems([...items, newItem]);
+        message.success("Item added successfully!");
     }
 
     const save = async (key: React.Key) => {
         try {
-            const row = (await form.validateFields()) as Item;
+            const row = (await form.validateFields()) as InvoiceTableData;
 
-            const newData = [...data];
+            const newData = [...items];
             const index = newData.findIndex(item => key === item.key);
             if (index > -1) {
                 const item = newData[index];
@@ -120,11 +128,11 @@ const Itemtable: React.FC = () => {
                     ...item,
                     ...row,
                 });
-                setData(newData);
+                setItems(newData);
                 setEditingKey('');
             } else {
                 newData.push(row);
-                setData(newData);
+                setItems(newData);
                 setEditingKey('');
             }
         } catch (errInfo) {
@@ -160,7 +168,7 @@ const Itemtable: React.FC = () => {
         {
             title: 'operation',
             dataIndex: 'operation',
-            render: (_: any, record: Item) => {
+            render: (_: any, record: InvoiceTableData) => {
                 const editable = isEditing(record);
                 return editable ? (
                     <span>
@@ -186,7 +194,7 @@ const Itemtable: React.FC = () => {
         }
         return {
             ...col,
-            onCell: (record: Item) => ({
+            onCell: (record: InvoiceTableData) => ({
                 record,
                 inputType: col.dataIndex === 'description' || col.dataIndex === 'amount' ? 'text' : 'number',
                 dataIndex: col.dataIndex,
@@ -216,7 +224,7 @@ const Itemtable: React.FC = () => {
 
     return (
         <div>
-            <Button type="primary" style={{ marginBottom: 16 }} onClick={addRowHandler}>
+            <Button type="primary" style={{ marginBottom: 16 }} onClick={() => setIsModalVisible(true)}>
                 Add a row
             </Button>
             <Form form={form} component={false} >
@@ -227,34 +235,34 @@ const Itemtable: React.FC = () => {
                         },
                     }}
                     bordered
-                    dataSource={data}
+                    dataSource={items}
                     columns={mergedColumns}
                     rowClassName="editable-row"
                     pagination={false}
                 />
             </Form>
-            <InvoiceModal title="Invoice Item" isModalVisible={isModalVisible} handleCancel={handleCancel}>
+            <InvoiceModal title="Invoice Item" isModalVisible={isModalVisible} handleCancel={handleCancel} submitHanlder={addRowHandler}>
                 <Form {...formItemLayout} layout="horizontal">
                     <Form.Item
                         name={'description'}
                         label="Description"
                         rules={[{ required: true, message: 'Please input description!' }]}
                     >
-                        <Input.TextArea placeholder="Ex: Lorem Ipsum " />
+                        <Input.TextArea placeholder="Ex: Lorem Ipsum " onChange={(e) => setDescription(e.target.value)} value={description} />
                     </Form.Item>
                     <Form.Item
                         name={'rate'}
                         label="Rate"
                         rules={[{ required: true, message: 'Please input rate!' }]}
                     >
-                        <Input placeholder="Ex: 20" />
+                        <Input placeholder="Ex: 20" onChange={(e) => setRate(parseFloat(e.target.value))} value={rate} />
                     </Form.Item>
                     <Form.Item
                         name={'qty'}
                         label="Quantity"
                         rules={[{ required: true, message: 'Please input quantity!' }]}
                     >
-                        <Input placeholder="Ex: 320" />
+                        <Input placeholder="Ex: 320" onChange={(e) => setQty(parseInt(e.target.value))} value={qty} />
                     </Form.Item>
                 </Form>
             </InvoiceModal>

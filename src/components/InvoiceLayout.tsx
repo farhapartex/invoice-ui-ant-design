@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Row } from 'antd';
 import LeftFrom from "./LeftFrom";
 import RightFrom from "./RightForm";
 import Itemtable from "./ItemTable";
-import { InvoiceData } from "./interface";
+import { InvoiceData, InvoiceTableData } from "./interface";
 
 
 interface InvoiceLayoutProps {
     invoiceData: InvoiceData
 }
 
+
+
 const InvoiceLayout: React.FC<InvoiceLayoutProps> = (props) => {
     const { invoiceData } = props;
+
+    const [items, setItems] = useState<InvoiceTableData[]>([]);
 
     return (
         <div className="invoiceForm">
@@ -24,7 +28,7 @@ const InvoiceLayout: React.FC<InvoiceLayoutProps> = (props) => {
                 </Col>
             </Row>
 
-            <Itemtable />
+            <Itemtable items={items} setItems={setItems} />
         </div>
     )
 }

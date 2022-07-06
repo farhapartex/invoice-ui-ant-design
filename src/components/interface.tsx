@@ -13,10 +13,11 @@ export interface Invoice {
 }
 
 export interface InvoiceTableData {
+    key: string,
     description: string,
     rate: number,
     qty: number,
-    amount: number,
+    amount?: number,
 }
 
 export interface InvoiceData {
