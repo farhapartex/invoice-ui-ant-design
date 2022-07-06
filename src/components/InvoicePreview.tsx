@@ -106,7 +106,7 @@ const InvoicePreview: React.FC<any> = (props) => {
     return (
         <div className="invoiceForm">
             <Row gutter={32}>
-                <Col span={12} className="gutter-row">
+                <Col xl={12} lg={12} md={24} sm={24} xs={24} className="gutter-row">
                     <Space direction="vertical" style={{ width: '100%' }}>
                         <Typography.Title level={4}>{invoiceData.fromName}</Typography.Title>
                         <Typography.Text>{invoiceData.fromAddress}</Typography.Text>
@@ -114,7 +114,7 @@ const InvoicePreview: React.FC<any> = (props) => {
                         <Typography.Text>{invoiceData.fromEmail}</Typography.Text>
                     </Space>
                 </Col>
-                <Col span={12}>
+                <Col xl={12} lg={12} md={24} sm={24} xs={24}>
                     <Space direction="vertical" style={{ textAlign: 'right', width: '100%' }}>
                         <Typography.Title level={4}>INVOICE</Typography.Title>
                         <Typography.Text>Number: {invoiceData.invoiceNumber}</Typography.Text>
@@ -126,7 +126,7 @@ const InvoicePreview: React.FC<any> = (props) => {
             </Row>
             <Divider />
             <Row style={{ marginBottom: '20px' }}>
-                <Col span={24}>
+                <Col xl={12} lg={12} md={24} sm={24} xs={24}>
                     <Space direction="vertical" style={{ width: '100%' }}>
                         <Typography.Text>BILL TO</Typography.Text>
                         <Typography.Text><span style={{ fontWeight: 'bold' }}>{invoiceData.toFullName}</span></Typography.Text>

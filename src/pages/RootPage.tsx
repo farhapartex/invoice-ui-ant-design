@@ -1,5 +1,7 @@
-import React from "react";
-import { Breadcrumb, Layout, Col, Row } from 'antd';
+import React, { useState, useEffect } from "react";
+import { Layout, Col, Row, Button } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
+import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import HeaderMenu from "../components/HeaderMenu";
 import InvoiceLayout from "../components/InvoiceLayout";
 import InvoicePreview from "../components/InvoicePreview";
@@ -41,26 +43,85 @@ const RootPage: React.FC = () => {
     const [toAddress, setToAddress] = React.useState("East Subid Bazar, Sylhet, Bangladesh");
     const [toPhone, setToPhone] = React.useState("+8801257488888");
     const [invoiceNumber, setInvoiceNumber] = React.useState("INV001");
+    const [isDesktop, setDesktop] = useState(window.innerWidth >= 1024);
+    const [showPreview, setShowPreview] = useState(window.innerWidth >= 1024);
+
+    const updateMedia = () => {
+        setDesktop(window.innerWidth >= 1024);
+        setShowPreview(Boolean(window.innerWidth >= 1024));
+    };
+
+    useEffect(() => {
+        window.addEventListener("resize", updateMedia);
+        return () => window.removeEventListener("resize", updateMedia);
+    });
 
     const invoiceData: InvoiceData = { fromName, setFromName, fromEmail, setFromEmail, fromAddress, setFromAddress, fromPhone, setFromPhone, businessNumber, setBusinessNumber, invoiceNumber, setInvoiceNumber, toFullName, setToFullName, toEmail, setToEmail, toAddress, setToAddress, toPhone, setToPhone };
+
+    const handleShowPreview = (flag: boolean) => {
+        setShowPreview(flag);
+    }
+
+    const handleDownload = () => {
+        alert("Comming soon!");
+    }
+
+    const renderLayout = () => {
+        return (
+            <Col xl={12} lg={12} md={24} sm={24} xs={24} className="gutter-row">
+                <InvoiceLayout invoiceData={invoiceData} />
+            </Col>
+        )
+    }
+
+    const renderPreview = () => {
+        return (
+            <Col xl={12} lg={12} md={24} sm={24} xs={24} className="gutter-row">
+                <InvoicePreview invoiceData={invoiceData} />
+            </Col>
+        )
+    }
+
+    const renderLeftForm = () => {
+        if (isDesktop) {
+            return renderLayout()
+        }
+
+        return !showPreview ? renderLayout() : null;
+    }
+
+    const renderRightForm = () => {
+        if (isDesktop) {
+            return renderPreview()
+        }
+
+        return showPreview ? renderPreview() : null;
+    }
 
     return (
         <Layout className="layout">
             <HeaderMenu menuList={menuList} />
 
             <Content style={{ padding: '0 50px' }}>
-                <Breadcrumb style={{ margin: '16px 0' }}>
-                    <Breadcrumb.Item>Home</Breadcrumb.Item>
-                    <Breadcrumb.Item>List</Breadcrumb.Item>
-                    <Breadcrumb.Item>App</Breadcrumb.Item>
-                </Breadcrumb>
-                <Row gutter={32}>
-                    <Col span={12} className="gutter-row">
-                        <InvoiceLayout invoiceData={invoiceData} />
-                    </Col>
-                    <Col span={12} className="gutter-row">
-                        <InvoicePreview invoiceData={invoiceData} />
-                    </Col>
+
+                <Content style={{ marginTop: '20px' }}>
+                    {!isDesktop &&
+                        <>
+                            <Button type="primary" onClick={() => handleShowPreview(true)}>
+                                Preview
+                            </Button>
+                            <Button type="primary" style={{ marginLeft: '10px' }} onClick={() => handleShowPreview(false)}>
+                                Edit
+                            </Button>
+                        </>
+                    }
+                    <Button type="primary" style={{ marginLeft: '10px' }} onClick={() => handleDownload()} icon={<DownloadOutlined />} size={"middle"}>
+                        Download
+                    </Button>
+                </Content>
+                <Row gutter={32} style={{ marginTop: '20px' }}>
+                    {renderLeftForm()}
+                    {renderRightForm()}
                 </Row>
             </Content>
 

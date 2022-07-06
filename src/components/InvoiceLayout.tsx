@@ -12,10 +12,10 @@ const InvoiceLayout: React.FC<any> = (props) => {
     return (
         <div className="invoiceForm">
             <Row gutter={32}>
-                <Col span={12} className="gutter-row">
+                <Col xl={12} lg={12} md={24} sm={24} xs={24} className="gutter-row">
                     <LeftFrom invoiceData={props.invoiceData} />
                 </Col>
-                <Col span={12}>
+                <Col xl={12} lg={12} md={24} sm={24} xs={24}>
                     <RightFrom invoiceData={props.invoiceData} />
                 </Col>
             </Row>
