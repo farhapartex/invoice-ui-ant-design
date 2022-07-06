@@ -53,6 +53,20 @@ const RootPage: React.FC = () => {
         setShowPreview(Boolean(window.innerWidth >= 1024));
     };
 
+    const data: Invoice = {
+        id: '629eede9-5738-4fc7-b51c-9b19d0669fc8',
+        invoiceno: 'INV001',
+        fromname: 'Md Nazmul Hasan',
+        fromemail: 'hasan08sust@gmail.com',
+        fromaddress: 'Test address',
+        fromphone: '+89766513',
+        frombusinessnumber: '+8798631',
+        toname: 'GoUpp Inc.',
+        toemail: 'account@goupp.xyz',
+        toaddress: 'Test address',
+        tophone: '+89766513',
+    }
+
     const fetchInvoiceData = async () => {
         const response = await supabase
             .from<Invoice>('invoices') // Message maps to the type of the row in your database.
@@ -60,7 +74,15 @@ const RootPage: React.FC = () => {
         console.log(response);
     }
 
+    const createInvoiceData = async (data: Invoice) => {
+        const response = await supabase
+            .from<Invoice>('invoices') // Message maps to the type of the row in your database.
+            .insert([data]);
+        console.log(response);
+    }
+
     fetchInvoiceData();
+    //createInvoiceData(data);
 
     useEffect(() => {
         window.addEventListener("resize", updateMedia);

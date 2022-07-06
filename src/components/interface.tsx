@@ -1,6 +1,5 @@
 export interface Invoice {
     id: string,
-    updated_at: string,
     invoiceno: string,
     fromname: string,
     fromemail: string,
