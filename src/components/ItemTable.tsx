@@ -83,7 +83,7 @@ const Itemtable: React.FC<ItemTableProps> = (props) => {
         let taxAmount = calculationData.subTotal * calculationData.taxPercent / 100;
         console.log('taxAmount: ', taxAmount);
         calculationData.setTaxAmount(taxAmount);
-        calculationData.setTotal(calculationData?.taxAmount + calculationData.subTotal);
+        calculationData.setTotal(parseFloat((calculationData.subTotal + taxAmount).toFixed(2)));
     }, [calculationData.subTotal, calculationData.taxAmount])
 
     useEffect(() => {
