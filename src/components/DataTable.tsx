@@ -1,4 +1,4 @@
-import { Space, Table, Tag } from 'antd';
+import { Table } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/lib/table';
 import React from 'react';
 

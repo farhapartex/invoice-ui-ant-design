@@ -1,7 +1,7 @@
 import React from "react";
 import { Layout, Menu } from 'antd';
 
-const { Header, Content, Footer } = Layout;
+const { Header } = Layout;
 
 interface HeaderMenuProps {
     menuList: string[];

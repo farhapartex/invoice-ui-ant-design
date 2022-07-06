@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Form, Input, DatePicker } from 'antd';
+import { Typography, Form, Input } from 'antd';
 
 const RightFrom: React.FC<any> = (props) => {
     const { invoiceData } = props;

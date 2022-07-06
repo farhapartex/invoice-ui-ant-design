@@ -4,7 +4,7 @@ import HeaderMenu from "../components/HeaderMenu";
 import InvoiceLayout from "../components/InvoiceLayout";
 import InvoicePreview from "../components/InvoicePreview";
 
-const { Header, Content, Footer } = Layout;
+const { Content, Footer } = Layout;
 
 export interface InvoiceData {
     fromName: string,
