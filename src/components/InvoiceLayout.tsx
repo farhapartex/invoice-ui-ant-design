@@ -3,19 +3,18 @@ import { Col, Row } from 'antd';
 import LeftFrom from "./LeftFrom";
 import RightFrom from "./RightForm";
 import Itemtable from "./ItemTable";
-import { InvoiceData, InvoiceTableData } from "./interface";
+import { InvoiceCalculationData, InvoiceData, InvoiceTableData } from "./interface";
 
 
 interface InvoiceLayoutProps {
     invoiceData: InvoiceData
-    items: InvoiceTableData[],
-    setItems: React.Dispatch<React.SetStateAction<InvoiceTableData[]>>
+    calculationData: InvoiceCalculationData
 }
 
 
 
 const InvoiceLayout: React.FC<InvoiceLayoutProps> = (props) => {
-    const { invoiceData, items, setItems } = props;
+    const { invoiceData, calculationData } = props;
 
     return (
         <div className="invoiceForm">
@@ -28,7 +27,7 @@ const InvoiceLayout: React.FC<InvoiceLayoutProps> = (props) => {
                 </Col>
             </Row>
 
-            <Itemtable items={items} setItems={setItems} />
+            <Itemtable items={invoiceData.invoiceTableData} setItems={invoiceData.setInvoiceTabledata} calculationData={calculationData} />
         </div>
     )
 }

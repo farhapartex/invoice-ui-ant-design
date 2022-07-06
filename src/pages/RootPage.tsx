@@ -5,7 +5,7 @@ import HeaderMenu from "../components/HeaderMenu";
 import InvoiceLayout from "../components/InvoiceLayout";
 import InvoicePreview from "../components/InvoicePreview";
 // import { supabase } from "../supabaseClient";
-import { Invoice, InvoiceData, InvoiceTableData } from "../components/interface";
+import { Invoice, InvoiceCalculationData, InvoiceData, InvoiceTableData } from "../components/interface";
 
 const { Content, Footer } = Layout;
 
@@ -24,6 +24,10 @@ const RootPage: React.FC = () => {
     const [isDesktop, setDesktop] = useState(window.innerWidth >= 1024);
     const [showPreview, setShowPreview] = useState(window.innerWidth >= 1024);
     const [invoiceTableData, setInvoiceTabledata] = useState<InvoiceTableData[]>([]);
+    const [subTotal, setSubTotal] = useState<number>(0);
+    const [taxPercent, setTaxPercent] = useState<number>(5);
+    const [taxAmount, setTaxAmount] = useState<number>(0);
+    const [total, setTotal] = useState<number>(0);
 
     const updateMedia = () => {
         setDesktop(window.innerWidth >= 1024);
@@ -77,10 +81,14 @@ const RootPage: React.FC = () => {
         alert("Comming soon!");
     }
 
+    const getInvoiceCalculations = (): InvoiceCalculationData => {
+        return { subTotal, setSubTotal, taxPercent, setTaxPercent, taxAmount, setTaxAmount, total, setTotal };
+    }
+
     const renderLayout = () => {
         return (
             <Col xl={12} lg={12} md={24} sm={24} xs={24} className="gutter-row">
-                <InvoiceLayout invoiceData={invoiceData} items={invoiceTableData} setItems={setInvoiceTabledata} />
+                <InvoiceLayout invoiceData={invoiceData} calculationData={getInvoiceCalculations()} />
             </Col>
         )
     }
@@ -88,7 +96,7 @@ const RootPage: React.FC = () => {
     const renderPreview = () => {
         return (
             <Col xl={12} lg={12} md={24} sm={24} xs={24} className="gutter-row">
-                <InvoicePreview invoiceData={invoiceData} />
+                <InvoicePreview invoiceData={invoiceData} calculationData={getInvoiceCalculations()} />
             </Col>
         )
     }

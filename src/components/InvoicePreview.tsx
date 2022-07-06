@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Row, Typography, Space, Divider } from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
 import DataTable from "./DataTable";
-import { InvoiceData } from "./interface";
+import { InvoiceCalculationData, InvoiceData } from "./interface";
 
 interface DataType {
     key: string;
@@ -59,30 +59,40 @@ const subTotalcolumns: ColumnsType<SubTotalDataType> = [
     },
 ];
 
-const subTotalData: SubTotalDataType[] = [
-    {
-        key: '1',
-        description: "Subtotal",
-        amount: 2560
-    },
-    {
-        key: '2',
-        description: "Tax (0%)",
-        amount: 0
-    },
-    {
-        key: '3',
-        description: "Total",
-        amount: 2560
-    }
-];
+
 
 interface InvoicePreviewProps {
     invoiceData: InvoiceData
+    calculationData: InvoiceCalculationData
 }
 
 const InvoicePreview: React.FC<InvoicePreviewProps> = (props) => {
-    const { invoiceData } = props;
+    const { invoiceData, calculationData } = props;
+
+
+
+    const renderSubTotalData = () => {
+        const subTotalData: SubTotalDataType[] = [
+            {
+                key: '1',
+                description: "Subtotal",
+                amount: calculationData?.subTotal
+            },
+            {
+                key: '2',
+                description: "Tax (0%) (Default 5%)",
+                amount: calculationData?.taxAmount
+            },
+            {
+                key: '3',
+                description: "Total",
+                amount: calculationData?.total
+            }
+        ];
+        return subTotalData;
+    }
+
+
 
     return (
         <div className="invoiceForm">
@@ -99,9 +109,9 @@ const InvoicePreview: React.FC<InvoicePreviewProps> = (props) => {
                     <Space direction="vertical" style={{ textAlign: 'right', width: '100%' }}>
                         <Typography.Title level={4}>INVOICE</Typography.Title>
                         <Typography.Text>Number: {invoiceData.invoiceNumber}</Typography.Text>
-                        <Typography.Text>Date: Jul 4, 2022</Typography.Text>
+                        <Typography.Text>Date: Jul 7, 2022</Typography.Text>
                         <Typography.Text>Due: On Receipt</Typography.Text>
-                        <Typography.Text>Balance Due: $3200</Typography.Text>
+                        <Typography.Text>Balance Due: ${calculationData?.total}</Typography.Text>
                     </Space>
                 </Col>
             </Row>
@@ -123,7 +133,7 @@ const InvoicePreview: React.FC<InvoicePreviewProps> = (props) => {
                 <Col span={8} className="gutter-row">
                 </Col>
                 <Col span={16}>
-                    <DataTable columns={subTotalcolumns} data={subTotalData} pagination={false} />
+                    <DataTable columns={subTotalcolumns} data={renderSubTotalData()} pagination={false} />
                 </Col>
             </Row>
         </div>

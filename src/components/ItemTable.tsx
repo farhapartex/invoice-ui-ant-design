@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { InputNumber, Button, Form, Input, Popconfirm, Table, Typography, message } from 'antd';
 import InvoiceModal from './InvModal';
-import { InvoiceTableData } from './interface';
+import { InvoiceTableData, InvoiceCalculationData } from './interface';
 
 
 const originData: InvoiceTableData[] = [];
@@ -64,12 +64,13 @@ const EditableCell: React.FC<EditableCellProps> = ({
 
 interface ItemTableProps {
     items: InvoiceTableData[],
-    setItems: React.Dispatch<React.SetStateAction<InvoiceTableData[]>>
+    setItems: React.Dispatch<React.SetStateAction<InvoiceTableData[]>>,
+    calculationData: InvoiceCalculationData
 }
 
 
 const Itemtable: React.FC<ItemTableProps> = (props) => {
-    const { items, setItems } = props;
+    const { items, setItems, calculationData } = props;
 
     const [form] = Form.useForm();
     const [editingKey, setEditingKey] = useState('');
@@ -77,6 +78,13 @@ const Itemtable: React.FC<ItemTableProps> = (props) => {
     const [description, setDescription] = useState<string>("");
     const [rate, setRate] = useState<number>(0);
     const [qty, setQty] = useState<number>(0);
+
+    useEffect(() => {
+        let taxAmount = calculationData.subTotal * calculationData.taxPercent / 100;
+        console.log('taxAmount: ', taxAmount);
+        calculationData.setTaxAmount(taxAmount);
+        calculationData.setTotal(calculationData?.taxAmount + calculationData.subTotal);
+    }, [calculationData.subTotal, calculationData.taxAmount])
 
 
     const isEditing = (record: InvoiceTableData) => record.key === editingKey;
@@ -118,6 +126,9 @@ const Itemtable: React.FC<ItemTableProps> = (props) => {
             qty: qty,
             amount: rate * qty,
         }
+        calculationData.setSubTotal(calculationData.subTotal + (newItem.amount || 0));
+
+
         setDefaultItem();
         setItems([...items, newItem]);
         message.success("Item added successfully!");
@@ -254,7 +265,7 @@ const Itemtable: React.FC<ItemTableProps> = (props) => {
                 />
             </Form>
             <InvoiceModal title="Invoice Item" isModalVisible={isModalVisible} handleCancel={handleCancel} submitHanlder={() => { }}>
-                <Form {...formItemLayout} name="itemAdd" onFinish={addRowHandler}>
+                <Form {...formItemLayout} name="itemAdd" >
                     <Form.Item
                         name={'description'}
                         label="Description"

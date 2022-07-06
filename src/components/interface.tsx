@@ -45,3 +45,14 @@ export interface InvoiceData {
     setInvoiceTabledata: React.Dispatch<React.SetStateAction<InvoiceTableData[]>>,
 }
 
+export interface InvoiceCalculationData {
+    subTotal: number,
+    setSubTotal: React.Dispatch<React.SetStateAction<number>>,
+    taxPercent: number,
+    setTaxPercent: React.Dispatch<React.SetStateAction<number>>,
+    taxAmount: number,
+    setTaxAmount: React.Dispatch<React.SetStateAction<number>>,
+    total: number,
+    setTotal: React.Dispatch<React.SetStateAction<number>>,
+}
+
