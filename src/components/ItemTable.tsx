@@ -129,7 +129,7 @@ const Itemtable: React.FC<ItemTableProps> = (props) => {
             description: description,
             rate: rate,
             qty: qty,
-            amount: rate * qty,
+            amount: parseFloat((rate * qty).toFixed(2)),
         }
         calculationData.setSubTotal(calculationData.subTotal + (newItem.amount || 0));
 
