@@ -10,7 +10,7 @@ import { Invoice, InvoiceCalculationData, InvoiceData, InvoiceTableData } from "
 const { Content, Footer } = Layout;
 
 const RootPage: React.FC = () => {
-    const menuList: string[] = ['Home', 'Invoices', 'Contact'];
+    const menuList: string[] = ['Home', 'Invoices'];
     const [fromName, setFromName] = React.useState("");
     const [fromEmail, setFromEmail] = React.useState("");
     const [fromAddress, setFromAddress] = React.useState("");
