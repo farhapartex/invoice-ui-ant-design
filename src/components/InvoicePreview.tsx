@@ -16,7 +16,7 @@ interface DataType {
 interface SubTotalDataType {
     key: string;
     description: string;
-    amount: number;
+    amount: string;
 }
 
 const columns: ColumnsType<DataType> = [
@@ -77,17 +77,17 @@ const InvoicePreview: React.FC<InvoicePreviewProps> = (props) => {
             {
                 key: '1',
                 description: "Subtotal",
-                amount: calculationData?.subTotal
+                amount: `$${calculationData.subTotal}`
             },
             {
                 key: '2',
                 description: "Tax (0%) (Default 5%)",
-                amount: calculationData?.taxAmount
+                amount: `$${calculationData.taxAmount}`
             },
             {
                 key: '3',
                 description: "Total",
-                amount: calculationData?.total
+                amount: `$${calculationData.total}`
             }
         ];
         return subTotalData;
