@@ -11,16 +11,16 @@ const { Content, Footer } = Layout;
 
 const RootPage: React.FC = () => {
     const menuList: string[] = ['Home', 'Invoices', 'Contact'];
-    const [fromName, setFromName] = React.useState("Md Nazmul Hasan");
-    const [fromEmail, setFromEmail] = React.useState("hasan08sust@gmail.com");
-    const [fromAddress, setFromAddress] = React.useState("West Subid Bazar, Sylhet, Bangladesh");
-    const [fromPhone, setFromPhone] = React.useState("+88015555555");
-    const [businessNumber, setBusinessNumber] = React.useState("+88016355555");
-    const [toFullName, setToFullName] = React.useState("GoUpp Inc.");
-    const [toEmail, setToEmail] = React.useState("account@goupp.xyz");
-    const [toAddress, setToAddress] = React.useState("East Subid Bazar, Sylhet, Bangladesh");
-    const [toPhone, setToPhone] = React.useState("+8801257488888");
-    const [invoiceNumber, setInvoiceNumber] = React.useState("INV001");
+    const [fromName, setFromName] = React.useState("");
+    const [fromEmail, setFromEmail] = React.useState("");
+    const [fromAddress, setFromAddress] = React.useState("");
+    const [fromPhone, setFromPhone] = React.useState("");
+    const [businessNumber, setBusinessNumber] = React.useState("");
+    const [toFullName, setToFullName] = React.useState("");
+    const [toEmail, setToEmail] = React.useState("");
+    const [toAddress, setToAddress] = React.useState("");
+    const [toPhone, setToPhone] = React.useState("");
+    const [invoiceNumber, setInvoiceNumber] = React.useState("");
     const [isDesktop, setDesktop] = useState(window.innerWidth >= 1024);
     const [showPreview, setShowPreview] = useState(window.innerWidth >= 1024);
     const [invoiceTableData, setInvoiceTabledata] = useState<InvoiceTableData[]>([]);
